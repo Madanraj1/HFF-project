@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:pusher/pusher.dart';
+import 'package:pusher_beams_server/pusher_beams_server.dart';
 
 class NotificationPage extends StatefulWidget {
   @override
@@ -46,13 +47,6 @@ class _NotificationPageState extends State<NotificationPage> {
     var response =
         await http.get(baseUrl, headers: {'authorization': basicAuth});
     Navigator.popAndPushNamed(context, '/notification_page');
-  }
-
-  Future<void> pushernotifi() async {
-    Pusher pusher =
-        new Pusher('1022778', '237f42c817e9de590d33', '65df0fc385cd311c77d0');
-    Map data = {'message': 'Hello world'};
-    await pusher.trigger(['test_channel'], 'my_event', data);
   }
 
   @override
@@ -147,7 +141,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          pushernotifi();
+          markAllAsRead();
         },
         child: Icon(Icons.clear_all),
         backgroundColor: orange_color,
