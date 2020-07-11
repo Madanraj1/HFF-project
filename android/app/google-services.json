@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "579268422230",
-    "firebase_url": "https://notify-dc3bb.firebaseio.com",
-    "project_id": "notify-dc3bb",
-    "storage_bucket": "notify-dc3bb.appspot.com"
+    "project_number": "1064500974293",
+    "firebase_url": "https://homely-fresh-foods.firebaseio.com",
+    "project_id": "homely-fresh-foods",
+    "storage_bucket": "homely-fresh-foods.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:579268422230:android:dc7a681846b650160d69f7",
+        "mobilesdk_app_id": "1:1064500974293:android:a7b02daca129876e2f885c",
         "android_client_info": {
           "package_name": "com.example.homely_fresh_food"
         }
       },
       "oauth_client": [
         {
-          "client_id": "579268422230-hmab7rq3bl7e4dgf73vtl4616gl1uok5.apps.googleusercontent.com",
+          "client_id": "1064500974293-20k2307b8kl3emg4mbbk4gcbgld87t3h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCJd45HE-cAXTEH0Cj5-VoTyToJJ9fh9QQ"
+          "current_key": "AIzaSyBvS4cvHkrrctDxNN4jS2qwKko5dKoclIU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "579268422230-hmab7rq3bl7e4dgf73vtl4616gl1uok5.apps.googleusercontent.com",
+              "client_id": "1064500974293-20k2307b8kl3emg4mbbk4gcbgld87t3h.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

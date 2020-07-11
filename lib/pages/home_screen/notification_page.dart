@@ -4,8 +4,6 @@ import 'package:homely_fresh_food/pages/home_screen/no_notification.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import 'package:pusher/pusher.dart';
-import 'package:pusher_beams_server/pusher_beams_server.dart';
 
 class NotificationPage extends StatefulWidget {
   @override
@@ -18,7 +16,7 @@ class _NotificationPageState extends State<NotificationPage> {
   bool _isLoading = true;
   List apiNotifications;
 
-  Future<String> getNotifications() async {
+  Future<void> getNotifications() async {
     String baseUrl = 'http://hff.nyxwolves.xyz/api/notifications';
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String basicAuth = sharedPreferences.getString("token");
@@ -31,7 +29,7 @@ class _NotificationPageState extends State<NotificationPage> {
     });
   }
 
-  Future<String> markAsRead(String id) async {
+  Future<void> markAsRead(String id) async {
     String baseUrl = 'http://hff.nyxwolves.xyz/api/notification-read/$id';
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String basicAuth = sharedPreferences.getString("token");
@@ -40,7 +38,7 @@ class _NotificationPageState extends State<NotificationPage> {
     Navigator.popAndPushNamed(context, '/notification_page');
   }
 
-  Future<String> markAllAsRead() async {
+  Future<void> markAllAsRead() async {
     String baseUrl = 'http://hff.nyxwolves.xyz/api/notification-read';
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String basicAuth = sharedPreferences.getString("token");

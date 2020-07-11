@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:homely_fresh_food/pages/authenticate/otp_page.dart';
 import 'package:homely_fresh_food/pages/home_screen/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -38,6 +39,8 @@ class _Signup_state extends State<Signup> {
     String password,
     String licencenumber,
   ) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     Map data = {
       'name': name,
       'phone': phone,
@@ -45,9 +48,7 @@ class _Signup_state extends State<Signup> {
       'password': password,
       'licencenumber': licencenumber
     };
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String basicAuth = 'Basic' + base64Encode(utf8.encode('$email:$password'));
-// print(basicAuth);
 
     Response response = await http.post(
       'http://hff.nyxwolves.xyz/api/register',
@@ -62,9 +63,7 @@ class _Signup_state extends State<Signup> {
         _isLoading = false;
       });
       sharedPreferences.setString("token", basicAuth);
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => HomePage()),
-          (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamed('/otp_screen');
     } else {
       setState(() {
         _isLoading = false;

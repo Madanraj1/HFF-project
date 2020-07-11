@@ -151,8 +151,8 @@ class _Signin_State extends State<Signin> {
                             setState(() {
                               _isLoading = true;
                             });
-                            signIn(
-                                nameController.text, passwordController.text);
+                            signIn(nameController.text.trim(),
+                                passwordController.text);
                           },
                         )),
 
