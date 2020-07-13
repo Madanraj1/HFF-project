@@ -84,7 +84,10 @@ class _HomePageState extends State<HomePage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Image.asset('assets/images/HFF_Logo.png'),
+          title: Image.asset(
+            'assets/images/HFF_Logo.png',
+            height: 50,
+          ),
           backgroundColor: title_bar_color,
           iconTheme: new IconThemeData(color: orange_color),
           bottom: TabBar(

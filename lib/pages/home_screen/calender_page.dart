@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:homely_fresh_food/pages/ordersdetails/calendarDetail.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -24,6 +23,7 @@ class _CalenderpageState extends State<Calenderpage>
   Color orange_color = Color(0xFFF95E21);
   Color card_black = Color(0xFF423F3F);
   var apiData;
+  var orderId;
   bool _isLoading = true;
   Map<DateTime, List> _eventss = {};
 
@@ -39,6 +39,7 @@ class _CalenderpageState extends State<Calenderpage>
     });
     for (var i = 0; i < apiData.length; i++) {
       _eventss[DateTime.parse(apiData[i]['start'])] = [apiData[i]['title']];
+      orderId = apiData[i]['order_id'];
     }
     print(_eventss);
   }
@@ -193,7 +194,14 @@ class _CalenderpageState extends State<Calenderpage>
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: ListTile(
                   title: Text(event.toString()),
-                  onTap: () => print('$event tapped!'),
+                  onTap: () {
+                    // to display the order in detail
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CalendatDetailPage(orderId: orderId)));
+                  },
                 ),
               ))
           .toList(),

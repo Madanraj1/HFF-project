@@ -76,6 +76,26 @@ class _ActiveOrderDetailState extends State<ActiveOrderDetail> {
   Color light_white = Color(0xFFd4d2d2);
   Map _statusResponse;
 
+// by using this function the order status changes from assigned to active
+  Future updateToActiveStatus(String assignee_id, String status) async {
+    Map data = {'assignee_id': assignee_id, 'status': status};
+    String baseUrl = 'http://hff.nyxwolves.xyz/api/status-update';
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String basicAuth = sharedPreferences.getString("token");
+    Response response = await http.post(
+      baseUrl,
+      body: data,
+      headers: <String, String>{'authorization': basicAuth},
+    );
+    _statusResponse = json.decode(response.body);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+
+    print(_statusResponse);
+  }
+
   Future updateToDeliveredStatus(String assignee_id, String status) async {
     Map data = {'assignee_id': assignee_id, 'status': status};
     String baseUrl = 'http://hff.nyxwolves.xyz/api/status-update';
@@ -640,7 +660,7 @@ class _ActiveOrderDetailState extends State<ActiveOrderDetail> {
                                   widget.assignee_id.toString(), 'Delivered');
                             },
                             child: Text(
-                              'CONFIRM ORDER PICKUP',
+                              'CONFIRM ORDER DELIVERY',
                               style: TextStyle(color: Colors.white),
                             ),
                             color: green_color,

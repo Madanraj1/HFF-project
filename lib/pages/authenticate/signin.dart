@@ -61,7 +61,10 @@ class _Signin_State extends State<Signin> {
     return Scaffold(
         backgroundColor: title_bar_color,
         appBar: AppBar(
-          title: Image.asset('assets/images/HFF_Logo.png'),
+          title: Image.asset(
+            'assets/images/HFF_Logo.png',
+            height: 50,
+          ),
           backgroundColor: Colors.grey[100],
           elevation: 2.0,
         ),
@@ -69,112 +72,114 @@ class _Signin_State extends State<Signin> {
             ? Center(child: CircularProgressIndicator())
             : Padding(
                 padding: EdgeInsets.all(40),
-                child: ListView(
-                  children: <Widget>[
-                    Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'Welcome to your HFF Account',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 35),
-                        )),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            'Welcome to your HFF Account',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 35),
+                          )),
 
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: TextField(
-                        controller: nameController,
-                        decoration: InputDecoration(
-                          // border: OutlineInputBorder(),
-                          labelText: 'Email or Mail ID ',
-                          suffixIcon: Padding(
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: TextField(
+                          controller: nameController,
+                          decoration: InputDecoration(
+                            // border: OutlineInputBorder(),
+                            labelText: 'Email or Mail ID ',
+                            suffixIcon: Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.only(end: 12.0),
+                                child: Icon(
+                                  Icons.email,
+                                  color: orange_color,
+                                )),
+                          ),
+                        ),
+                      ),
+
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: TextField(
+                          obscureText: true,
+                          controller: passwordController,
+                          decoration: InputDecoration(
+                            // border: OutlineInputBorder(),
+                            labelText: 'Password',
+                            suffixIcon: Padding(
                               padding:
                                   const EdgeInsetsDirectional.only(end: 12.0),
                               child: Icon(
-                                Icons.email,
+                                Icons.lock,
                                 color: orange_color,
-                              )),
-                        ),
-                      ),
-                    ),
-
-                    Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: TextField(
-                        obscureText: true,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          // border: OutlineInputBorder(),
-                          labelText: 'Password',
-                          suffixIcon: Padding(
-                            padding:
-                                const EdgeInsetsDirectional.only(end: 12.0),
-                            child: Icon(
-                              Icons.lock,
-                              color: orange_color,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
 
-                    SizedBox(height: 20),
-                    // showing the error
-                    message == null
-                        ? Container()
-                        : Text(
-                            '$message',
-                            style: TextStyle(color: orange_color),
-                          ),
+                      SizedBox(height: 20),
+                      // showing the error
+                      message == null
+                          ? Container()
+                          : Text(
+                              '$message',
+                              style: TextStyle(color: orange_color),
+                            ),
 
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/forgot_password_page');
-                      },
-                      textColor: Colors.black,
-                      child: Text('Forgot Password'),
-                    ),
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/forgot_password_page');
+                        },
+                        textColor: Colors.black,
+                        child: Text('Forgot Password'),
+                      ),
 
-                    Container(
-                        height: 50,
-                        padding: EdgeInsets.fromLTRB(85, 0, 85, 0),
-                        child: RaisedButton(
-                          textColor: Colors.white,
-                          color: green_color,
-                          child: Text(
-                            'Sign In',
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                          onPressed: () async {
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            signIn(nameController.text.trim(),
-                                passwordController.text);
-                          },
-                        )),
+                      Container(
+                          height: 50,
+                          padding: EdgeInsets.fromLTRB(85, 0, 85, 0),
+                          child: RaisedButton(
+                            textColor: Colors.white,
+                            color: green_color,
+                            child: Text(
+                              'Sign In',
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                            onPressed: () async {
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              signIn(nameController.text.trim(),
+                                  passwordController.text);
+                            },
+                          )),
 
-                    Container(
-                        child: Row(
-                      children: <Widget>[
-                        Text('Does not have account?'),
-                        FlatButton(
-                          textColor: green_color,
-                          child: Text(
-                            'Sign Up',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () {
-                            //signup screen
-                            Navigator.pushNamed(context, '/signup');
-                          },
-                        )
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ))
-                  ],
+                      Container(
+                          child: Row(
+                        children: <Widget>[
+                          Text('Does not have account?'),
+                          FlatButton(
+                            textColor: green_color,
+                            child: Text(
+                              'Sign Up',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              //signup screen
+                              Navigator.pushNamed(context, '/signup');
+                            },
+                          )
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      ))
+                    ],
+                  ),
                 )));
   }
 }
