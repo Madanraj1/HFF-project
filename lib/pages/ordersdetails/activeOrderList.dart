@@ -137,7 +137,7 @@ class _ActiveOrderListState extends State<ActiveOrderList> {
                     // return object of type Dialog
                     return AlertDialog(
                       title: new Text(
-                        "Removc This Order",
+                        "Remove This Order",
                         style: TextStyle(
                           color: Colors.grey,
                           fontFamily: 'Roboto-Regular',

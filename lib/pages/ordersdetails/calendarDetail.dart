@@ -37,7 +37,7 @@ class _CalendatDetailPageState extends State<CalendatDetailPage> {
   Color dark_white = Colors.white;
   Color light_white = Color(0xFFd4d2d2);
   Map _statusResponse;
-  var apiData;
+  var apiData, distance, finalDistance;
   Map distances;
   bool _isLoading = true;
 
@@ -69,13 +69,15 @@ class _CalendatDetailPageState extends State<CalendatDetailPage> {
     double myLongitude = position.longitude;
     double mylatitude = position.latitude;
     apiData = json.decode(response.body);
-    print('this is response $apiData');
+    // print('this is response $apiData');
     var dist = await getDistance(apiData, mylatitude, myLongitude);
 
     setState(() {
       apiData = json.decode(response.body);
       distances = {"distance": dist};
-      print(distances);
+      distance = distances['distance'][0];
+      finalDistance = distance != '-' ? (distance / 1000).round() : '--';
+      // print(distances);
       _isLoading = false;
     });
     // print(distances['distance'][0]);
@@ -117,10 +119,6 @@ class _CalendatDetailPageState extends State<CalendatDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    var distance = distances['distance'][0];
-    var finalDistance = distance != '-' ? (distance / 1000).round() : '--';
-    var delivery_status = apiData['data']['delivery_status'];
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -268,7 +266,7 @@ class _CalendatDetailPageState extends State<CalendatDetailPage> {
                                         size: 15,
                                       ),
                                       Text(
-                                        '${finalDistance} km',
+                                        '$finalDistance km',
                                         style: TextStyle(
                                             color: orange_color, fontSize: 13),
                                       ),

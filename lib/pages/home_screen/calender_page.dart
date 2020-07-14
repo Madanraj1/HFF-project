@@ -16,18 +16,17 @@ class Calenderpage extends StatefulWidget {
 
 class _CalenderpageState extends State<Calenderpage>
     with TickerProviderStateMixin {
-  List _selectedEvents;
+  List<dynamic> _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController;
   Color green_color = Color(0xFF9AC632);
   Color orange_color = Color(0xFFF95E21);
   Color card_black = Color(0xFF423F3F);
-  var apiData;
-  var orderId;
+  var apiData, orderId, date, eventDetail;
   bool _isLoading = true;
-  Map<DateTime, List> _eventss = {};
+  Map<DateTime, List<dynamic>> _eventss = {};
 
-  Future<String> getCalendarOrders() async {
+  Future<void> getCalendarOrders() async {
     String baseUrl = 'http://hff.nyxwolves.xyz/api/calendar';
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String basicAuth = sharedPreferences.getString("token");
@@ -37,18 +36,33 @@ class _CalenderpageState extends State<Calenderpage>
       apiData = json.decode(response.body);
       _isLoading = false;
     });
+
     for (var i = 0; i < apiData.length; i++) {
-      _eventss[DateTime.parse(apiData[i]['start'])] = [apiData[i]['title']];
-      orderId = apiData[i]['order_id'];
+      _eventss[DateTime.parse(apiData[i]['start'])] = [
+        {
+          'title': apiData[i]['title'],
+          'date': apiData[i]['start'],
+          'orderId': apiData[i]['order_id']
+        },
+      ];
     }
     print(_eventss);
+  }
+
+  Future<void> getOrderDetail(orderId) async {
+    String baseUrll = 'http://hff.nyxwolves.xyz/api/my-order/${orderId}';
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String basicAuth = sharedPreferences.getString("token");
+    var responsee =
+        await http.get(baseUrll, headers: {'authorization': basicAuth});
+    eventDetail = json.decode(responsee.body);
   }
 
   @override
   void initState() {
     super.initState();
     getCalendarOrders();
-    final _selectedDay = DateTime.now();
+    var _selectedDay = DateTime.now();
 
     _selectedEvents = _eventss[_selectedDay] ?? [];
     _calendarController = CalendarController();
@@ -69,10 +83,10 @@ class _CalenderpageState extends State<Calenderpage>
   }
 
   void _onDaySelected(DateTime day, List events) {
-    print('CALLBACK: _onDaySelected');
     setState(() {
       _selectedEvents = events;
     });
+    print(_selectedEvents);
   }
 
   void _onVisibleDaysChanged(
@@ -82,7 +96,7 @@ class _CalenderpageState extends State<Calenderpage>
 
   void _onCalendarCreated(
       DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onCalendarCreated');
+    // print('CALLBACK: _onCalendarCreated');
   }
 
   @override
@@ -107,12 +121,8 @@ class _CalenderpageState extends State<Calenderpage>
           : Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                // Switch out 2 lines below to play with TableCalendar's settings
-                //-----------------------
                 _buildTableCalendar(),
-                // _buildTableCalendarWithBuilders(),
                 const SizedBox(height: 8.0),
-                // _buildButtons(),
                 const SizedBox(height: 8.0),
                 Expanded(child: _buildEventList()),
               ],
@@ -130,9 +140,7 @@ class _CalenderpageState extends State<Calenderpage>
         borderRadius: BorderRadius.circular(30),
         child: TableCalendar(
           calendarController: _calendarController,
-          // events: _events,
           events: _eventss,
-          // holidays: _holidays,
           startingDayOfWeek: StartingDayOfWeek.monday,
           calendarStyle: CalendarStyle(
             todayColor: orange_color,
@@ -156,32 +164,6 @@ class _CalenderpageState extends State<Calenderpage>
     );
   }
 
-  Widget _buildEventsMarker(DateTime date, List events) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        color: _calendarController.isSelected(date)
-            ? Colors.brown[500]
-            : _calendarController.isToday(date)
-                // change this color to green
-                ? Colors.brown[300]
-                : Colors.blue[400],
-      ),
-      width: 16.0,
-      height: 16.0,
-      child: Center(
-        child: Text(
-          '${events.length}',
-          style: TextStyle().copyWith(
-            color: Colors.white,
-            fontSize: 12.0,
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildEventList() {
     return ListView(
       children: _selectedEvents
@@ -193,14 +175,17 @@ class _CalenderpageState extends State<Calenderpage>
                 margin:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: ListTile(
-                  title: Text(event.toString()),
+                  title: Text(event['title']),
+                  leading: Text(event['date']),
+                  dense: false,
                   onTap: () {
                     // to display the order in detail
+                    getOrderDetail(event['orderId']);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                CalendatDetailPage(orderId: orderId)));
+                                CalendatDetailPage(orderId: event['orderId'])));
                   },
                 ),
               ))
