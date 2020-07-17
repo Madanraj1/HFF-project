@@ -37,15 +37,21 @@ class _CalenderpageState extends State<Calenderpage>
       _isLoading = false;
     });
 
-    for (var i = 0; i < apiData.length; i++) {
-      _eventss[DateTime.parse(apiData[i]['start'])] = [
-        {
-          'title': apiData[i]['title'],
-          'date': apiData[i]['start'],
-          'orderId': apiData[i]['order_id']
-        },
-      ];
-    }
+    var dates = [];
+    apiData.forEach((e) {
+      if (!(dates.contains(e['start']))) {
+        dates.add(e["start"]);
+        _eventss[DateTime.parse(e["start"])] = [
+          {'title': e['title'], 'date': e['start'], 'orderId': e['order_id']}
+        ];
+      } else {
+        _eventss[DateTime.parse(e["start"])].add({
+          'title': e['title'],
+          'date': e['start'],
+          'orderId': e['order_id']
+        });
+      }
+    });
     print(_eventss);
   }
 
