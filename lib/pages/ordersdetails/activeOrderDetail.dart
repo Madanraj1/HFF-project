@@ -126,6 +126,7 @@ class _ActiveOrderDetailState extends State<ActiveOrderDetail> {
 
   @override
   Widget build(BuildContext context) {
+    print("${widget.longitude}----${widget.latitude}");
     return Scaffold(
       appBar: AppBar(
         title: Text(

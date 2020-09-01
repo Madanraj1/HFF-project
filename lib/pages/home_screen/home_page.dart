@@ -240,8 +240,8 @@ class _HomePageState extends State<HomePage> {
                                   Icons.settings_applications, 'Settings', () {
                                 Navigator.pushNamed(context, '/setting_page');
                               }),
-                              CustomListTile(MdiIcons.accountCircleOutline,
-                                  'Support Us', () {}),
+                              // CustomListTile(MdiIcons.accountCircleOutline,
+                              //     'Support Us', () {}),
                               CustomListTile(MdiIcons.exitToApp, 'Log Out', () {
                                 // removing the token
                                 sharedPreferences.clear();

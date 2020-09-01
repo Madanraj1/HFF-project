@@ -99,6 +99,7 @@ class _AssignedOrderDetailState extends State<AssignedOrderDetail> {
   _launchURL(_url) async {
     var url = _url;
     if (await canLaunch(url)) {
+      print("----------------------LATLNG----$url");
       await launch(url);
     } else {
       throw 'Could not launch $url';
@@ -107,6 +108,7 @@ class _AssignedOrderDetailState extends State<AssignedOrderDetail> {
 
   @override
   Widget build(BuildContext context) {
+    print("${widget.longitude}----${widget.latitude}");
     return Scaffold(
       appBar: AppBar(
         title: Text(

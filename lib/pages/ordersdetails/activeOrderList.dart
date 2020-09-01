@@ -100,6 +100,7 @@ class _ActiveOrderListState extends State<ActiveOrderList> {
             itemCount: apiData['data'].length,
             itemBuilder: (context, index) {
               //storing all the needed data of the api in the variables
+
               var orderNo = apiData['data'][index]['order_id'];
               var date = apiData['data'][index]['dates'];
               var time = apiData['data'][index]['timeslot'];
@@ -111,6 +112,9 @@ class _ActiveOrderListState extends State<ActiveOrderList> {
               var city = apiData['data'][index]['address']['city'];
               var postalCode = apiData['data'][index]['address']['postelcode'];
               var address = '$doorno $street  $city  $postalCode';
+              var pass_latitude = apiData['data'][index]['address']['latitude'];
+              var pass_longitude =
+                  apiData['data'][index]['address']['longitude'];
               var oneprice = apiData['data'][index]['plan']['one_price'];
               var foodPicture = apiData['data'][index]['plan']['picture'];
               var menuTitle01 =
@@ -495,10 +499,6 @@ class _ActiveOrderListState extends State<ActiveOrderList> {
                                                             fontSize: 16.0),
                                                       ),
                                                       onPressed: () {
-                                                        // Navigator.pushNamed(context, '/order_detail_confirm');
-                                                        // Navigator.pushNamed(context, '/order_detail_delivered');
-                                                        // Navigator.pushNamed(context, '/order_detail_pickup');
-
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
@@ -536,6 +536,10 @@ class _ActiveOrderListState extends State<ActiveOrderList> {
                                                                               finalDistance,
                                                                           assignee_id:
                                                                               assignee_id,
+                                                                          latitude:
+                                                                              pass_latitude,
+                                                                          longitude:
+                                                                              pass_longitude,
                                                                         )));
                                                       },
                                                     ),
