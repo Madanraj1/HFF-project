@@ -244,8 +244,9 @@ class _HomePageState extends State<HomePage> {
                               //     'Support Us', () {}),
                               CustomListTile(MdiIcons.exitToApp, 'Log Out', () {
                                 // removing the token
-                                sharedPreferences.clear();
-                                sharedPreferences.commit();
+                                sharedPreferences.setString("token", null);
+                                // sharedPreferences.clear();
+                                // sharedPreferences.commit();
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
                                         builder: (BuildContext context) =>

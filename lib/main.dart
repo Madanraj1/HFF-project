@@ -14,6 +14,7 @@ import 'package:homely_fresh_food/pages/home_screen/under_slide/setting_page.dar
 import 'package:homely_fresh_food/pages/ordersdetails/assignedOrderDetail.dart';
 import 'package:homely_fresh_food/pages/ordersdetails/compelted_order_list.dart';
 import 'package:homely_fresh_food/pages/ordersdetails/activeOrderDetail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   // these two are used for to call now btn
@@ -29,8 +30,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Homely Fresh Food',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/wrapper',
       routes: {
+        '/wrapper': (context) => Wrapper(),
         '/': (context) => Signin(),
         '/signin': (context) => Signin(),
         '/signup': (context) => Signup(),
@@ -47,5 +49,41 @@ class MyApp extends StatelessWidget {
         '/setting_page': (context) => SettingPage(),
       },
     );
+  }
+}
+
+class Wrapper extends StatefulWidget {
+  @override
+  _WrapperState createState() => _WrapperState();
+}
+
+class _WrapperState extends State<Wrapper> {
+  getToken() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var tok = preferences.getString("token");
+    if (tok != null) {
+      Navigator.pushReplacementNamed(context, "/home_page");
+    } else {
+      Navigator.pushReplacementNamed(context, "/");
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getToken();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+      body: Container(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    ));
   }
 }
